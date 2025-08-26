@@ -1,0 +1,165 @@
+#:kivy 2.2.0
+
+BoxLayout:
+    orientation: 'vertical'
+
+    MDTopAppBar:
+        id: top_appbar
+        title: ""
+        md_bg_color: app.theme_cls.primary_color
+        elevation: 4
+
+    MDBottomNavigation:
+        id: bottom_nav
+
+        MDBottomNavigationItem:
+            id: home_tab
+            name: 'home'
+            text: ""
+            icon: 'home'
+            HomeScreen:
+                name: 'home'
+                MDLabel:
+                    id: welcome_label
+                    text: ""
+                    halign: 'center'
+
+        MDBottomNavigationItem:
+            id: scan_tab
+            name: 'scan'
+            text: ""
+            icon: 'qrcode-scan'
+            ScanScreen:
+                name: 'scan'
+
+        MDBottomNavigationItem:
+            id: generate_tab
+            name: 'generate'
+            text: ""
+            icon: 'qrcode-plus'
+            GenerateScreen:
+                name: 'generate'
+
+        MDBottomNavigationItem:
+            id: history_tab
+            name: 'history'
+            text: ""
+            icon: 'history'
+            Screen:
+                name: 'history'
+                MDLabel:
+                    id: history_soon_label
+                    text: ""
+                    halign: 'center'
+
+        MDBottomNavigationItem:
+            id: profile_tab
+            name: 'profile'
+            text: ""
+            icon: 'account'
+            ProfileScreen:
+                name: 'profile'
+
+<EditProfileContent>:
+    orientation: 'vertical'
+    spacing: "12dp"
+    padding: "12dp"
+    size_hint_y: None
+    height: self.minimum_height
+
+    MDTextField:
+        id: name_field
+        hint_text: ""
+        size_hint_x: 1
+        required: False
+        helper_text_mode: "on_focus"
+    
+    MDTextField:
+        id: email_field
+        hint_text: ""
+        size_hint_x: 1
+        required: False
+        helper_text_mode: "on_focus"
+
+    MDTextField:
+        id: phone_field
+        hint_text: ""
+        size_hint_x: 1
+        required: False
+        helper_text_mode: "on_focus"
+    
+    # --- Строка: тёмная тема ---
+    MDBoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: '48dp'
+        MDLabel:
+            id: dark_mode_label
+            text: ""
+            halign: 'left'
+            size_hint_y: 1
+        CustomSwitch:
+            id: theme_switch
+            active: False
+
+    # --- Строка: язык ---
+    MDBoxLayout:
+        orientation: "horizontal"
+        size_hint_y: None
+        height: "48dp"
+        MDLabel:
+            id: lang_label
+            text: ""
+            halign: "left"
+            size_hint_x: 1
+        CustomSwitch:
+            id: lang_switch
+            active: False
+
+<ProfileScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        spacing: dp(20)
+        padding: dp(20)
+
+        # Avatar + name block
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: dp(220)
+            spacing: dp(10)
+            pos_hint: {'center_x': 0.5}
+
+            MDCard:
+                size_hint: None, None
+                size: dp(120), dp(120)
+                pos_hint: {'center_x': 0.5}
+                radius: [60,]
+                elevation: 0
+                md_bg_color: 0,0,0,0
+
+                # AsyncImage (более безопасно) - если хочешь FitImage, можно заменить
+                AsyncImage:
+                    id: avatar_img
+                    source: "assets/avatars/default.png"
+                    allow_stretch: True
+                    keep_ratio: True
+
+            MDLabel:
+                id: username_label
+                text: ""
+                halign: 'center'
+                theme_text_color: 'Primary'
+                font_style: 'H5'
+
+        MDRaisedButton:
+            id: edit_profile_btn
+            text: ""
+            pos_hint: {'center_x': 0.5}
+            on_release: root.open_edit_profile_dialog()
+
+        MDFlatButton:
+            id: logout_btn
+            text: ""
+            pos_hint: {'center_x': 0.5}
+            on_release: root.user_logout()
