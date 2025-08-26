@@ -7,6 +7,7 @@ class UserViewModel:
         # Гарантируемя, что пользователь существует
         self.user = UserRepository.ensure_default_user()
         self.language = "ru"
+        self.theme = "dark"
     
     def refresh(self):
         self.user = UserRepository.ensure_default_user()

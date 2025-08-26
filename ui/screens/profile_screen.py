@@ -124,6 +124,7 @@ class ProfileScreen(MDScreen):
             self.vm.reset_user()
         self._refresh_ui()
         self.get_app().switch_language(self.vm.language)
+        self.get_app().switch_theme(self.vm.theme)
 
     def get_app(self):
         from kivymd.app import MDApp
