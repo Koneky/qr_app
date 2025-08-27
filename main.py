@@ -113,16 +113,13 @@ class QRumiXApp(MDApp):
         safe_set('history_tab', 'text', self.translate("history"))
         safe_set('profile_tab', 'text', self.translate("profile"))
         safe_set('history_soon_label', 'text', self.translate("history_soon"))
-        # safe_set('edit_profile_btn', 'text', self.translate("edit_profile"))
-        # safe_set('logout_btn', 'text', self.translate("logout"))
         safe_set('name_field', 'hint_text', self.translate("name"))
+        safe_set('fullname_field', 'hint_text', self.translate("fullname"))
         safe_set('email_field', 'hint_text', self.translate("email"))
         safe_set('phone_field', 'hint_text', self.translate("phone"))
+        safe_set('bio_field', 'hint_text', self.translate("bio"))
         safe_set('dark_mode_label', 'text', self.translate("dark_theme"))
         safe_set('lang_label', 'text', self.translate("language"))
-        # safe_set('username_label', 'text', self.translate("guest"))
-        safe_set('cancel_btn', 'text', self.translate("cancel"))
-        safe_set('save_btn', 'text', self.translate("save"))
 
 
 
