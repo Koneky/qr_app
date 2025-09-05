@@ -58,193 +58,214 @@ BoxLayout:
             text: ""
             icon: 'account'
             ProfileScreen:
+                id: profile_screen
                 name: 'profile'
 
-<EditProfileContent>:
-    orientation: 'vertical'
-    spacing: "12dp"
-    padding: "12dp"
-    size_hint_y: None
-    height: self.minimum_height
+<EditProfileContent@ScrollView>:
+    bar_width: dp(6)
+    do_scroll_x: False
 
-    MDTextField:
-        id: name_field
-        hint_text: ""
-        size_hint_x: 1
-        required: False
-        helper_text_mode: "on_focus"
-        on_focus: if not self.focus: app.user_vm.update_user(name=self.text)
-
-    MDTextField:
-        id: fullname_field
-        hint_text: ""
-        size_hint_x: 1
-        required: False
-        helper_text_mode: "on_focus"
-        on_focus: if not self.focus: app.user_vm.update_user(fullname=self.text)
-    
-    MDTextField:
-        id: email_field
-        hint_text: ""
-        size_hint_x: 1
-        required: False
-        helper_text_mode: "on_focus"
-        on_focus: if not self.focus: app.user_vm.update_user(email=self.text)
-
-    MDTextField:
-        id: phone_field
-        hint_text: ""
-        size_hint_x: 1
-        required: False
-        helper_text_mode: "on_focus"
-        on_focus: if not self.focus: app.user_vm.update_user(phone=self.text)
-
-    MDTextField:
-        id: bio_field
-        hint_text: ""
-        size_hint_x: 1
-        required: False
-        helper_text_mode: "on_focus"
-        on_focus: if not self.focus: app.user_vm.update_user(bio=self.text)
-
-    MDRaisedButton:
-        id: upload_avatar_btn
-        text: "Upload avatar"
-        on_release: root.select_avatar()
-    
-    # --- Строка: тёмная тема ---
     MDBoxLayout:
-        orientation: 'horizontal'
-        size_hint_y: None
-        height: '48dp'
-        MDLabel:
-            id: dark_mode_label
-            text: ""
-            halign: 'left'
-            size_hint_y: 1
-        CustomSwitch:
-            id: theme_switch
-            active: False
-            on_active: app.user_vm.update_user(theme='dark' if self.active else 'light')
-
-    # --- Строка: язык ---
-    MDBoxLayout:
-        orientation: "horizontal"
-        size_hint_y: None
-        height: "48dp"
-        MDLabel:
-            id: lang_label
-            text: ""
-            halign: "left"
-            size_hint_x: 1
-        CustomSwitch:
-            id: lang_switch
-            active: False
-            on_active: app.user_vm.update_user(language='en' if self.active else 'ru')
-
-<ProfileScreen>:
-    MDBoxLayout:
-        orientation: 'vertical'
-        spacing: dp(20)
-        padding: dp(20)
-
-        # Avatar + name block
-        MDBoxLayout:
             orientation: 'vertical'
-            size_hint_y: None
-            height: dp(260)
-            spacing: dp(10)
-            pos_hint: {'center_x': 0.5}
+        spacing: "12dp"
+        padding: "16dp"
+        size_hint_y: None
+        height: self.minimum_height
 
-            MDCard:
-                size_hint: None, None
-                size: dp(120), dp(120)
-                pos_hint: {'center_x': 0.5}
-                radius: [60,]
-                elevation: 0
-                md_bg_color: 0,0,0,0
+        MDTextField:
+            id: name_field
+            hint_text: ""
+            size_hint_x: 1
+            on_focus: if not self.focus: app.user_vm.update_user(name=self.text)
+        
+        MDTextField:
+            id: fullname_field
+            hint_text: ""
+            size_hint_y: 1
+            on_focus: if not self.focus: app.user_vm.update_user(full_name=self.text)
+        
+        MDTextField:
+            id: email_field
+            hint_text: ""
+            size_hint_y: 1
+            on_focus: if not self.focus: app.user_vm.update_user(email=self.text)
 
-                # AsyncImage (более безопасно) - если хочешь FitImage, можно заменить
-                AsyncImage:
-                    id: avatar_img
-                    source: "assets/avatars/default.png"
-                    allow_stretch: True
-                    keep_ratio: True
+        MDTextField:
+            id: phone_field
+            hint_text: ""
+            size_hint_y: 1
+            on_focus: if not self.focus: app.user_vm.update_user(phone=self.text)
 
-            MDLabel:
-                id: username_label
-                text: ""
-                halign: 'center'
-                theme_text_color: 'Primary'
-                font_style: 'H5'
-
-            MDLabel:
-                id: fullname_label
-                text: ""
-                halign: 'center'
-                theme_text_color: 'Secondary'
-                font_style: 'Body2'
-
-            MDLabel:
-                id: bio_label
-                text: ""
-                halign: 'center'
-                theme_text_color: 'Hint'
-                font_style: 'Body2'
-
-            MDCard:
-                id: premium_badge
-                size_hint: None, None
-                size: dp(100), dp(32)
-                pos_hint: {'center_x': 0.5}
-                radius: [16,]
-                md_bg_color: 1, 0.8, 0, 1
-                opacity: 0
-                MDLabel:
-                    text: "Premium"
-                    halign: 'center'
-                    theme_text_color: 'Custom'
-                    text_color: 0, 0, 0, 1
-                    font_style: 'Button'
-
-        # Статус блок
-        MDBoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: None
-            height: dp(50)
-            spacing: dp(10)
-            pos_hint: {'center_x': 0.5}
-
-            MDBoxLayout:
-                orientation: 'vertical'
-                halign: 'center'
-                MDIcon:
-                    icon: 'qrcode-scan'
-                    halign: 'center'
-                MDLabel:
-                    id: scans_label
-                    text: ""
-                    halign: 'center'
-
-            MDBoxLayout:
-                orientation: 'vertical'
-                halign: 'center'
-                MDIcon:
-                    icon: 'qrcode-plus'
-                    halign: 'center'
-                MDLabel:
-                    id: generates_label
-                    text: ""
-                    halign: 'center'
+        MDTextField:
+            id: bio_field
+            hint_text: ""
+            multiline: True
+            size_hint_y: 1
+            on_focus: if not self.focus: app.user_vm.update_user(bio=self.text)
 
         MDRaisedButton:
-            id: edit_profile_btn
+            id: upload_avatar_btn
             text: ""
-            pos_hint: {'center_x': 0.5}
-            on_release: root.open_edit_profile_dialog()
+            size_hint_y: 1
+            on_release: app.root.ids.profile_screen.select_avatar()
 
-        MDFlatButton:
-            id: logout_btn
-            text: ""
-            pos_hint: {'center_x': 0.5}
-            on_release: root.user_logout()
+        # --- Строка: тёмная тема ---
+        MDBoxLayout:
+            orientation: 'horizontal'
+            adaptive_height: True
+            spacing: '8dp'
+            MDLabel:
+                id: dark_mode_label
+                text: ""
+                halign: 'left'
+                size_hint_x: 1
+            CustomSwitch:
+                id: theme_switch
+                active: False
+                size_hint_x: None
+                width: dp(48)
+                on_active: app.user_vm.update_user(theme='dark' if self.active else 'light')
+            
+        # --- Строка: язык ---
+        MDBoxLayout:
+            orientation: 'horizontal'
+            adaptive_height: True
+            spacing: '8dp'
+            MDLabel:
+                id: lang_label
+                text: ""
+                halign: 'left'
+                size_hint_x: 1
+            CustomSwitch:
+                id: lang_switch
+                active: False
+                size_hint_x: None
+                width: dp(48)
+                on_active: app.user_vm.update_user(language='en' if self.active else 'ru')
+
+<ProfileScreen>:
+    ScrollView:
+        MDBoxLayout:
+            orientation: 'vertical'
+            spacing: dp(20)
+            padding: dp(20)
+            adaptive_height: True
+
+            # Avatar + name block
+            MDBoxLayout:
+                orientation: 'vertical'
+                adaptive_height: True
+                spacing: dp(10)
+                pos_hint: {'center_x': 0.5}
+
+                MDCard:
+                    size_hint: None, None
+                    size: dp(120), dp(120)
+                    pos_hint: {'center_x': 0.5}
+                    radius: [60,]
+                    elevation: 0
+                    md_bg_color: 0,0,0,0
+
+                    # AsyncImage (более безопасно) - если хочешь FitImage, можно заменить
+                    AsyncImage:
+                        id: avatar_img
+                        source: "assets/avatars/default.png"
+                        allow_stretch: True
+                        keep_ratio: True
+
+                # Full name (полное имя)
+                MDLabel:
+                    id: fullname_label
+                    text: ""
+                    halign: 'center'
+                    theme_text_color: 'Primary'
+                    font_style: 'H5'
+                    size_hint_y: None
+                    adaptive_height: True
+                
+                # username (в скобках)
+                MDLabel:
+                    id: username_label
+                    text: ""
+                    halign: 'center'
+                    theme_text_color: 'Secondary'
+                    font_style: 'Subtitle1'
+                    size_hint_y: None
+                    adaptive_height: True
+                
+                # Bio
+                MDLabel:
+                    id: bio_label
+                    text: ""
+                    halign: 'center'
+                    theme_text_color: 'Hint'
+                    font_style: 'Body2'
+                    size_hint_y: None
+                    adaptive_height: True
+                
+                # Premium badge
+                MDCard:
+                    id: premium_badge
+                    size_hint: None, None
+                    size: dp(110), dp(32)
+                    pos_hint: {'center_x': 0.5}
+                    radius: [16,]
+                    md_bg_color: (1, 0.84, 0, 1)
+                    opacity: 0
+                    MDLabel:
+                        text: "★ Premium"
+                        halign: 'center'
+                        theme_text_color: 'Custom'
+                        text_color: (0, 0, 0, 1)
+                        font_style: 'Button'
+
+            # Статус блок
+            MDBoxLayout:
+                orientation: 'horizontal'
+                adaptive_height: True
+                spacing: dp(20)
+                pos_hint: {'center_x': 0.5}
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    adaptive_height: True
+                    spacing: dp(5)
+                    MDIcon:
+                        icon: 'qrcode-scan'
+                        halign: 'center'
+                    MDLabel:
+                        id: scans_label
+                        text: ""
+                        halign: 'center'
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    adaptive_height: True
+                    spacing: dp(5)
+                    MDIcon:
+                        icon: 'qrcode-plus'
+                        halign: 'center'
+                    MDLabel:
+                        id: generates_label
+                        text: ""
+                        halign: 'center'
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                adaptive_height: True
+                spacing: dp(10)
+                pos_hint: {'center_x': 0.5}
+
+                MDRaisedButton:
+                    id: edit_profile_btn
+                    text: ""
+                    pos_hint: {'center_x': 0.5}
+                    size_hint_x: 0.8
+                    on_release: root.open_edit_profile_dialog()
+
+                MDFlatButton:
+                    id: logout_btn
+                    text: ""
+                    pos_hint: {'center_x': 0.5}
+                    size_hint_x: 0.8
+                    on_release: root.user_logout()

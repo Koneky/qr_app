@@ -17,6 +17,7 @@ from ui.widgets.custom_switch import CustomSwitch
 # Экраны
 from ui.screens.generate_screen import GenerateScreen
 from ui.screens.home_screen import HomeScreen
+from ui.screens.profile_screen import EditProfileContent
 from ui.screens.profile_screen import ProfileScreen
 from ui.screens.scan_screen import ScanScreen
 
@@ -118,6 +119,7 @@ class QRumiXApp(MDApp):
         safe_set('email_field', 'hint_text', self.translate("email"))
         safe_set('phone_field', 'hint_text', self.translate("phone"))
         safe_set('bio_field', 'hint_text', self.translate("bio"))
+        safe_set('upload_avatar_btn', 'text', self.translate("upload_avatar_btn"))
         safe_set('dark_mode_label', 'text', self.translate("dark_theme"))
         safe_set('lang_label', 'text', self.translate("language"))
 
