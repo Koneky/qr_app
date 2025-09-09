@@ -1,271 +1,72 @@
 #:kivy 2.2.0
 
-BoxLayout:
-    orientation: 'vertical'
+ScreenManager:
+    id: screen_manager
 
-    MDTopAppBar:
-        id: top_appbar
-        title: ""
-        md_bg_color: app.theme_cls.primary_color
-        elevation: 4
-
-    MDBottomNavigation:
-        id: bottom_nav
-
-        MDBottomNavigationItem:
-            id: home_tab
-            name: 'home'
-            text: ""
-            icon: 'home'
-            HomeScreen:
-                name: 'home'
-                MDLabel:
-                    id: welcome_label
-                    text: ""
-                    halign: 'center'
-
-        MDBottomNavigationItem:
-            id: scan_tab
-            name: 'scan'
-            text: ""
-            icon: 'qrcode-scan'
-            ScanScreen:
-                name: 'scan'
-
-        MDBottomNavigationItem:
-            id: generate_tab
-            name: 'generate'
-            text: ""
-            icon: 'qrcode-plus'
-            GenerateScreen:
-                name: 'generate'
-
-        MDBottomNavigationItem:
-            id: history_tab
-            name: 'history'
-            text: ""
-            icon: 'history'
-            Screen:
-                name: 'history'
-                MDLabel:
-                    id: history_soon_label
-                    text: ""
-                    halign: 'center'
-
-        MDBottomNavigationItem:
-            id: profile_tab
-            name: 'profile'
-            text: ""
-            icon: 'account'
-            ProfileScreen:
-                id: profile_screen
-                name: 'profile'
-
-<EditProfileContent@ScrollView>:
-    bar_width: dp(6)
-    do_scroll_x: False
-
-    MDBoxLayout:
+    Screen:
+        name: 'main'
+        BoxLayout:
             orientation: 'vertical'
-        spacing: "12dp"
-        padding: "16dp"
-        size_hint_y: None
-        height: self.minimum_height
 
-        MDTextField:
-            id: name_field
-            hint_text: ""
-            size_hint_x: 1
-            on_focus: if not self.focus: app.user_vm.update_user(name=self.text)
-        
-        MDTextField:
-            id: fullname_field
-            hint_text: ""
-            size_hint_y: 1
-            on_focus: if not self.focus: app.user_vm.update_user(full_name=self.text)
-        
-        MDTextField:
-            id: email_field
-            hint_text: ""
-            size_hint_y: 1
-            on_focus: if not self.focus: app.user_vm.update_user(email=self.text)
-
-        MDTextField:
-            id: phone_field
-            hint_text: ""
-            size_hint_y: 1
-            on_focus: if not self.focus: app.user_vm.update_user(phone=self.text)
-
-        MDTextField:
-            id: bio_field
-            hint_text: ""
-            multiline: True
-            size_hint_y: 1
-            on_focus: if not self.focus: app.user_vm.update_user(bio=self.text)
-
-        MDRaisedButton:
-            id: upload_avatar_btn
-            text: ""
-            size_hint_y: 1
-            on_release: app.root.ids.profile_screen.select_avatar()
-
-        # --- Строка: тёмная тема ---
-        MDBoxLayout:
-            orientation: 'horizontal'
-            adaptive_height: True
-            spacing: '8dp'
-            MDLabel:
-                id: dark_mode_label
-                text: ""
-                halign: 'left'
-                size_hint_x: 1
-            CustomSwitch:
-                id: theme_switch
-                active: False
-                size_hint_x: None
-                width: dp(48)
-                on_active: app.user_vm.update_user(theme='dark' if self.active else 'light')
+            MDTopAppBar:
+                id: top_appbar
+                title: ''
+                md_bg_color: app.theme_cls.primary_color
+                elevation: 4
             
-        # --- Строка: язык ---
-        MDBoxLayout:
-            orientation: 'horizontal'
-            adaptive_height: True
-            spacing: '8dp'
-            MDLabel:
-                id: lang_label
-                text: ""
-                halign: 'left'
-                size_hint_x: 1
-            CustomSwitch:
-                id: lang_switch
-                active: False
-                size_hint_x: None
-                width: dp(48)
-                on_active: app.user_vm.update_user(language='en' if self.active else 'ru')
+            MDBottomNavigation:
+                id: bottom_nav
 
-<ProfileScreen>:
-    ScrollView:
-        MDBoxLayout:
-            orientation: 'vertical'
-            spacing: dp(20)
-            padding: dp(20)
-            adaptive_height: True
+                MDBottomNavigationItem:
+                    id: home_tab
+                    name: 'home'
+                    text: ''
+                    icon: 'home'
+                    HomeScreen:
+                        name: 'home'
 
-            # Avatar + name block
-            MDBoxLayout:
-                orientation: 'vertical'
-                adaptive_height: True
-                spacing: dp(10)
-                pos_hint: {'center_x': 0.5}
-
-                MDCard:
-                    size_hint: None, None
-                    size: dp(120), dp(120)
-                    pos_hint: {'center_x': 0.5}
-                    radius: [60,]
-                    elevation: 0
-                    md_bg_color: 0,0,0,0
-
-                    # AsyncImage (более безопасно) - если хочешь FitImage, можно заменить
-                    AsyncImage:
-                        id: avatar_img
-                        source: "assets/avatars/default.png"
-                        allow_stretch: True
-                        keep_ratio: True
-
-                # Full name (полное имя)
-                MDLabel:
-                    id: fullname_label
-                    text: ""
-                    halign: 'center'
-                    theme_text_color: 'Primary'
-                    font_style: 'H5'
-                    size_hint_y: None
-                    adaptive_height: True
+                MDBottomNavigationItem:
+                    id: scan_tab
+                    name: 'scan'
+                    text: ''
+                    icon: 'qrcode-scan'
+                    ScanScreen:
+                        name: 'scan'
                 
-                # username (в скобках)
-                MDLabel:
-                    id: username_label
-                    text: ""
-                    halign: 'center'
-                    theme_text_color: 'Secondary'
-                    font_style: 'Subtitle1'
-                    size_hint_y: None
-                    adaptive_height: True
+                MDBottomNavigationItem:
+                    id: generate_tab
+                    name: 'generate'
+                    text: ''
+                    icon: 'qrcode-plus'
+                    GenerateScreen:
+                        name: 'generate'
                 
-                # Bio
-                MDLabel:
-                    id: bio_label
-                    text: ""
-                    halign: 'center'
-                    theme_text_color: 'Hint'
-                    font_style: 'Body2'
-                    size_hint_y: None
-                    adaptive_height: True
-                
-                # Premium badge
-                MDCard:
-                    id: premium_badge
-                    size_hint: None, None
-                    size: dp(110), dp(32)
-                    pos_hint: {'center_x': 0.5}
-                    radius: [16,]
-                    md_bg_color: (1, 0.84, 0, 1)
-                    opacity: 0
-                    MDLabel:
-                        text: "★ Premium"
-                        halign: 'center'
-                        theme_text_color: 'Custom'
-                        text_color: (0, 0, 0, 1)
-                        font_style: 'Button'
+                MDBottomNavigationItem:
+                    id: history_tab
+                    name: 'history'
+                    text: ''
+                    icon: 'history'
+                    HistoryScreen:
+                        name: 'history'
 
-            # Статус блок
-            MDBoxLayout:
-                orientation: 'horizontal'
-                adaptive_height: True
-                spacing: dp(20)
-                pos_hint: {'center_x': 0.5}
+                MDBottomNavigationItem:
+                    id: profile_tab
+                    name: 'profile'
+                    text: ''
+                    icon: 'account'
+                    ProfileScreen:
+                        id: profile_screen
+                        name: 'profile'
 
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    adaptive_height: True
-                    spacing: dp(5)
-                    MDIcon:
-                        icon: 'qrcode-scan'
-                        halign: 'center'
-                    MDLabel:
-                        id: scans_label
-                        text: ""
-                        halign: 'center'
+    # Скрытые экраны(вне основного bottom_nav)
+    EditProfileScreen:
+        name: 'edit_profile'
 
-                MDBoxLayout:
-                    orientation: 'vertical'
-                    adaptive_height: True
-                    spacing: dp(5)
-                    MDIcon:
-                        icon: 'qrcode-plus'
-                        halign: 'center'
-                    MDLabel:
-                        id: generates_label
-                        text: ""
-                        halign: 'center'
+    SettingsScreen:
+        name: 'settings'
 
-            MDBoxLayout:
-                orientation: 'vertical'
-                adaptive_height: True
-                spacing: dp(10)
-                pos_hint: {'center_x': 0.5}
+    AuthScreen:
+        name: 'auth'
 
-                MDRaisedButton:
-                    id: edit_profile_btn
-                    text: ""
-                    pos_hint: {'center_x': 0.5}
-                    size_hint_x: 0.8
-                    on_release: root.open_edit_profile_dialog()
-
-                MDFlatButton:
-                    id: logout_btn
-                    text: ""
-                    pos_hint: {'center_x': 0.5}
-                    size_hint_x: 0.8
-                    on_release: root.user_logout()
+    RegistrationScreen:
+        name: 'registration'  

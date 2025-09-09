@@ -34,18 +34,30 @@ class UserRepository:
     ) -> User | None:
         user = UserRepository.ensure_default_user()
         
-        if name is not None: user.name = name
-        if full_name is not None: user.full_name = full_name
-        if email is not None: user.email = email
-        if phone is not None: user.phone = phone
-        if avatar_path is not None: user.avatar_path = avatar_path
-        if bio is not None: user.bio = bio
-        if theme is not None: user.theme = theme
-        if language is not None: user.language = language
-        if is_premium is not None: user.is_premium = is_premium
-        if scan_count is not None: user.scan_count = scan_count
-        if generate_count is not None: user.generate_count = generate_count
-        if history_enabled is not None: user.history_enabled = history_enabled
+        if name is not None:
+            user.name = name
+        if full_name is not None:
+            user.full_name = full_name
+        if email is not None:
+            user.email = email
+        if phone is not None:
+            user.phone = phone
+        if avatar_path is not None:
+            user.avatar_path = avatar_path
+        if bio is not None:
+            user.bio = bio
+        if theme is not None:
+            user.theme = theme
+        if language is not None:
+            user.language = language
+        if is_premium is not None:
+            user.is_premium = is_premium
+        if scan_count is not None:
+            user.scan_count = scan_count
+        if generate_count is not None:
+            user.generate_count = generate_count
+        if history_enabled is not None:
+            user.history_enabled = history_enabled
         
         user.last_login = datetime.now()
         user.save()

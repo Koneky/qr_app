@@ -26,13 +26,13 @@ class UserViewModel:
             "bio": u.bio or "",
             "theme": u.theme,
             "language": u.language,
-            "is_premium": u.is_premium,
-            "scan_count": u.scan_count,
-            "generate_count": u.generate_count,
-            "history_enabled": u.history_enabled,
-            "created_at": str(u.created_at),
-            "updated_at": str(u.updated_at),
-            "last_login": str(u.last_login) if u.last_login else ""
+            "is_premium": bool(u.is_premium),
+            "scan_count": int(u.scan_count),
+            "generate_count": int(u.generate_count),
+            "history_enabled": bool(u.history_enabled),
+            "created_at": u.created_at.isoformat(),
+            "updated_at": u.updated_at.isoformat(),
+            "last_login": u.last_login.isoformat() if u.last_login else ""
         }
     
     def update_user(self, **kwargs) -> dict:

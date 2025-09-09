@@ -17,10 +17,16 @@ from ui.widgets.custom_switch import CustomSwitch
 # Экраны
 from ui.screens.generate_screen import GenerateScreen
 from ui.screens.home_screen import HomeScreen
-from ui.screens.profile_screen import EditProfileContent
 from ui.screens.profile_screen import ProfileScreen
+from ui.screens.editprofile_screen import EditProfileScreen
 from ui.screens.scan_screen import ScanScreen
+from ui.screens.history_screen import HistoryScreen
+from ui.screens.settings_screen import SettingsScreen
+from ui.screens.auth_screen import AuthScreen
+from ui.screens.registration_screen import RegistrationScreen
 
+
+KV_DIR = os.path.join(os.path.dirname(__file__), "ui", "kv")
 
 class QRumiXApp(MDApp):
     def __init__(self, **kwargs):
@@ -30,20 +36,21 @@ class QRumiXApp(MDApp):
         self.theme = QRumiXTheme()
 
     def build(self):
-        self.theme.apply(self) # Применяем кастомную тему
-
-        # Инициализация БД
+        # Применяю тему и инициализирую БД/VM
+        self.theme.apply(self)
         db_path = os.path.join(self.user_data_dir, "qr_app.db")
         init_db(db_path)
         create_tables()
-
-        # Инициализация ViewModel
         self.user_vm = UserViewModel()
-
-        # Язык из бд
         self.current_lang = self.user_vm.language
 
-        # Загрузка KV
+        # Загрузка всех kv из ui/kv (чтобы классы экранов были определены до app.kv)
+        if os.path.isdir(KV_DIR):
+            for fname in sorted(os.listdir(KV_DIR)):
+                if fname.endswith(".kv"):
+                    Builder.load_file(os.path.join(KV_DIR, fname))
+
+        # Загрузка основного app.kv(корень приложения)
         return Builder.load_file('app.kv')
     
     def on_start(self):
@@ -91,37 +98,46 @@ class QRumiXApp(MDApp):
         if not self.root:
             return
         
-        def find_widget_by_id(widget, id_name):
+        def find_all_widgets_by_id(widget, id_name, result=None):
+            """Ищет все виджеты с данным id рекурсивно"""
+            if result is None:
+                result = []
+            # Проверка виджета
             if hasattr(widget, 'ids') and id_name in widget.ids:
-                return widget.ids[id_name]
-            for child in widget.children:
-                result = find_widget_by_id(child, id_name)
-                if result:
-                    return result
-            return None
+                result.append(widget.ids[id_name])
+            # Рекурсивно обхожу детей
+            for child in getattr(widget, 'children', []):
+                find_all_widgets_by_id(child, id_name, result)
+            return result
         
-        def safe_set(id_name, attr, value):
-            widget = find_widget_by_id(self.root, id_name)
-            if widget:
-                setattr(widget, attr, value)
-        
-        # Применяем переводы
-        safe_set('top_appbar', 'title', self.translate("app_title"))
-        safe_set('welcome_label', 'text', self.translate("welcome"))
-        safe_set('home_tab', 'text', self.translate("home"))
-        safe_set('scan_tab', 'text', self.translate("scan"))
-        safe_set('generate_tab', 'text', self.translate("generate"))
-        safe_set('history_tab', 'text', self.translate("history"))
-        safe_set('profile_tab', 'text', self.translate("profile"))
-        safe_set('history_soon_label', 'text', self.translate("history_soon"))
-        safe_set('name_field', 'hint_text', self.translate("name"))
-        safe_set('fullname_field', 'hint_text', self.translate("fullname"))
-        safe_set('email_field', 'hint_text', self.translate("email"))
-        safe_set('phone_field', 'hint_text', self.translate("phone"))
-        safe_set('bio_field', 'hint_text', self.translate("bio"))
-        safe_set('upload_avatar_btn', 'text', self.translate("upload_avatar_btn"))
-        safe_set('dark_mode_label', 'text', self.translate("dark_theme"))
-        safe_set('lang_label', 'text', self.translate("language"))
+        # Словарь соответствия id -> ключ перевода
+        translations_map = {
+            'top_appbar': ('title', "app_title"),
+            'welcome_label': ('text', "welcome"),
+            'home_tab': ('text', "home"),
+            'scan_tab': ('text', "scan"),
+            'generate_tab': ('text', "generate"),
+            'history_tab': ('text', "history"),
+            'profile_tab': ('text', "profile"),
+            'history_soon_label': ('text', "history_soon"),
+            'home_coming_soon': ('text', "coming_soon"),
+            'scan_coming_soon': ('text', "coming_soon"),
+            'generate_coming_soon': ('text', "coming_soon"),
+            'history_coming_soon': ('text', "coming_soon"),
+            'name_field': ('hint_text', "name"),
+            'fullname_field': ('hint_text', "fullname"),
+            'email_field': ('hint_text', "email"),
+            'phone_field': ('hint_text', "phone"),
+            'bio_field': ('hint_text', "bio"),
+            'upload_avatar_btn': ('text', "upload_avatar_btn"),
+            'dark_mode_label': ('text', "dark_theme"),
+            'lang_label': ('text', "language"),
+        }
+
+        for id_name, (attr, key) in translations_map.items():
+            widgets = find_all_widgets_by_id(self.root, id_name)
+            for widget in widgets:
+                setattr(widget, attr, self.translate(key))
 
 
 

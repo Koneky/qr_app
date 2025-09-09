@@ -1,0 +1,47 @@
+<EditProfileScreen>:
+    name: 'edit_profile'
+    ScrollView:
+        MDBoxLayout:
+            orientation: 'vertical'
+            spacing: dp(12)
+            padding: dp(16)
+            size_hint_y: None
+            height: self.minimum_height
+
+            MDTextField:
+                id: name_field
+                hint_text: ""
+                required: False
+            
+            MDTextField:
+                id: fullname_field
+                hint_text: ""
+                required: False
+            
+            MDTextField:
+                id: phone_field
+                hint_text: ""
+                required: False
+            
+            MDTextField:
+                id: email_field
+                hint_text: ""
+                required: False
+            
+            MDTextField:
+                id: bio_field
+                hint_text: ""
+                multiline: True
+                required: False
+            
+            MDBoxLayout:
+                adaptive_height: True
+                spacing: dp(8)
+                MDFlatButton:
+                    id: cancel
+                    text: ''
+                    on_release: app.root.current = 'main'
+                MDRaisedButton:
+                    id: save
+                    text: ''
+                    on_release: root.save()

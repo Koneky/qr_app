@@ -1,5 +1,5 @@
-from kivymd.uix.screen import MDScreen
+from ui.screens.translatable_screen import TranslatableScreen
 
 
-class GenerateScreen(MDScreen):
+class GenerateScreen(TranslatableScreen):
     pass
