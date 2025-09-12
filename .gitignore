@@ -210,3 +210,5 @@ __marimo__/
 temp_kv/
 logs/
 .buildozer/
+buildozer_requirements.txt
+bin/
